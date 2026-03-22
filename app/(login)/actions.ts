@@ -32,7 +32,7 @@ async function logActivity(
   type: ActivityType,
   ipAddress?: string
 ) {
-  if (teamId === null || teamId === undefined) {
+  if (!db || teamId === null || teamId === undefined) {
     return;
   }
   const newActivity: NewActivityLog = {
@@ -50,6 +50,9 @@ const signInSchema = z.object({
 });
 
 export const signIn = validatedAction(signInSchema, async (data, formData) => {
+  if (!db) {
+    return { error: 'Database not configured.', email: data.email, password: data.password };
+  }
   const { email, password } = data;
 
   const userWithTeam = await db
@@ -107,6 +110,9 @@ const signUpSchema = z.object({
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
+  if (!db) {
+    return { error: 'Database not configured.', email: data.email, password: data.password };
+  }
   const { email, password, inviteId } = data;
 
   const existingUser = await db
@@ -237,6 +243,9 @@ const updatePasswordSchema = z.object({
 export const updatePassword = validatedActionWithUser(
   updatePasswordSchema,
   async (data, _, user) => {
+    if (!db) {
+      return { error: 'Database not configured.', currentPassword: data.currentPassword, newPassword: data.newPassword, confirmPassword: data.confirmPassword };
+    }
     const { currentPassword, newPassword, confirmPassword } = data;
 
     const isPasswordValid = await comparePasswords(
@@ -295,6 +304,9 @@ const deleteAccountSchema = z.object({
 export const deleteAccount = validatedActionWithUser(
   deleteAccountSchema,
   async (data, _, user) => {
+    if (!db) {
+      return { error: 'Database not configured.', password: data.password };
+    }
     const { password } = data;
 
     const isPasswordValid = await comparePasswords(password, user.passwordHash);
@@ -346,6 +358,9 @@ const updateAccountSchema = z.object({
 export const updateAccount = validatedActionWithUser(
   updateAccountSchema,
   async (data, _, user) => {
+    if (!db) {
+      return { error: 'Database not configured.', name: data.name };
+    }
     const { name, email } = data;
     const userWithTeam = await getUserWithTeam(user.id);
 
@@ -365,6 +380,9 @@ const removeTeamMemberSchema = z.object({
 export const removeTeamMember = validatedActionWithUser(
   removeTeamMemberSchema,
   async (data, _, user) => {
+    if (!db) {
+      return { error: 'Database not configured.' };
+    }
     const { memberId } = data;
     const userWithTeam = await getUserWithTeam(user.id);
 
@@ -399,6 +417,9 @@ const inviteTeamMemberSchema = z.object({
 export const inviteTeamMember = validatedActionWithUser(
   inviteTeamMemberSchema,
   async (data, _, user) => {
+    if (!db) {
+      return { error: 'Database not configured.' };
+    }
     const { email, role } = data;
     const userWithTeam = await getUserWithTeam(user.id);
 
