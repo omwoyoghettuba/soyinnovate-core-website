@@ -5,6 +5,8 @@ import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth/session';
 
 export async function getUser() {
+  if (!db) return null;
+  
   const sessionCookie = (await cookies()).get('session');
   if (!sessionCookie || !sessionCookie.value) {
     return null;
@@ -37,6 +39,7 @@ export async function getUser() {
 }
 
 export async function getTeamByStripeCustomerId(customerId: string) {
+  if (!db) return null;
   const result = await db
     .select()
     .from(teams)
@@ -55,6 +58,7 @@ export async function updateTeamSubscription(
     subscriptionStatus: string;
   }
 ) {
+  if (!db) return;
   await db
     .update(teams)
     .set({
@@ -65,6 +69,7 @@ export async function updateTeamSubscription(
 }
 
 export async function getUserWithTeam(userId: number) {
+  if (!db) return null;
   const result = await db
     .select({
       user: users,
@@ -79,9 +84,10 @@ export async function getUserWithTeam(userId: number) {
 }
 
 export async function getActivityLogs() {
+  if (!db) return [];
   const user = await getUser();
   if (!user) {
-    throw new Error('User not authenticated');
+    return [];
   }
 
   return await db
@@ -100,6 +106,7 @@ export async function getActivityLogs() {
 }
 
 export async function getTeamForUser() {
+  if (!db) return null;
   const user = await getUser();
   if (!user) {
     return null;
