@@ -1,11 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ArrowLeft } from 'lucide-react';
 import { updateAccount } from '@/app/(login)/actions';
 import { User } from '@/lib/db/schema';
 import useSWR from 'swr';
@@ -80,7 +81,11 @@ export default function GeneralPage() {
 
   return (
     <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium text-gray-900 mb-6">
+      <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-6">
+        <ArrowLeft className="h-4 w-4 mr-2" />
+        Back
+      </Link>
+      <h1 className="text-lg lg:text-2xl font-medium text-foreground mb-6">
         General Settings
       </h1>
 
@@ -94,14 +99,13 @@ export default function GeneralPage() {
               <AccountFormWithData state={state} />
             </Suspense>
             {state.error && (
-              <p className="text-red-500 text-sm">{state.error}</p>
+              <p className="text-destructive text-sm">{state.error}</p>
             )}
             {state.success && (
-              <p className="text-green-500 text-sm">{state.success}</p>
+              <p className="text-success text-sm">{state.success}</p>
             )}
             <Button
               type="submit"
-              className="bg-orange-500 hover:bg-orange-600 text-white"
               disabled={isPending}
             >
               {isPending ? (

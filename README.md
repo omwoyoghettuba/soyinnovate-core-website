@@ -1,20 +1,41 @@
-# Next.js SaaS Starter
+# SoyInnovate Solutions - Enterprise Software for East Africa
 
-This is a starter template for building a SaaS application using **Next.js** with support for authentication, Stripe integration for payments, and a dashboard for logged-in users.
+A comprehensive SaaS platform providing enterprise software solutions for businesses in Kenya and the East African Community.
 
-**Demo: [https://next-saas-start.vercel.app/](https://next-saas-start.vercel.app/)**
+## Products
 
-## Features
+### 1. SmartDairy - Dairy Management Platform
+Complete dairy farm management SaaS for Kenyan farmers:
+- **Herd Management**: Animal registry, health records, breeding management
+- **AI Muzzle Identification**: Photo-based animal identification using Gemini AI
+- **Milk Production**: Multi-session yield tracking per animal
+- **Feed & Silage Management**: Inventory with low-stock alerts
+- **Financial Ledger**: Profit/loss analysis, expense tracking
+- **AI Vet Assistant**: Gemini-powered health diagnosis and recommendations
+- **Offline-First**: PWA with IndexedDB for field use
 
-- Marketing landing page (`/`) with animated Terminal element
-- Pricing page (`/pricing`) which connects to Stripe Checkout
-- Dashboard pages with CRUD operations on users/teams
-- Basic RBAC with Owner and Member roles
-- Subscription management with Stripe Customer Portal
-- Email/password authentication with JWTs stored to cookies
-- Global middleware to protect logged-in routes
-- Local middleware to protect Server Actions or validate Zod schemas
-- Activity logging system for any user events
+### 2. Cooperative Societies Platform
+End-to-end cooperative management for agricultural cooperatives:
+- **Member Management**: Registration, status tracking, unique numbering
+- **Shares & Savings**: Purchase, redemption, transfers, dividends
+- **Loans Processing**: Full lifecycle from application to repayment
+- **Produce Collections**: Track member deliveries with GL posting
+- **Inventory & Fixed Assets**: Warehouses, purchase orders, depreciation
+- **General Ledger**: Double-entry bookkeeping with automated posting
+
+### 3. ERP for East Africa
+Comprehensive enterprise resource planning:
+- Financial management with multi-currency support
+- Human resources and payroll
+- Supply chain and inventory
+- Business intelligence and reporting
+
+### 4. MRP for Manufacturing
+Material Requirements Planning for manufacturers:
+- Production planning and scheduling
+- BOM management and procurement
+- Quality control workflows
+- Cost analysis and forecasting
 
 ## Tech Stack
 
@@ -22,98 +43,69 @@ This is a starter template for building a SaaS application using **Next.js** wit
 - **Database**: [Postgres](https://www.postgresql.org/)
 - **ORM**: [Drizzle](https://orm.drizzle.team/)
 - **Payments**: [Stripe](https://stripe.com/)
-- **UI Library**: [shadcn/ui](https://ui.shadcn.com/)
+- **AI**: [Google Gemini](https://ai.google.dev/)
+- **UI**: [Tailwind CSS](https://tailwindcss.com/) + shadcn/ui
 
 ## Getting Started
 
 ```bash
-git clone https://github.com/nextjs/saas-starter
+git clone https://github.com/your-repo/saas-starter
 cd saas-starter
 pnpm install
 ```
 
 ## Running Locally
 
-[Install](https://docs.stripe.com/stripe-cli) and log in to your Stripe account:
-
+Install and log in to Stripe CLI:
 ```bash
 stripe login
 ```
 
-Use the included setup script to create your `.env` file:
-
+Use the setup script to create your `.env` file:
 ```bash
 pnpm db:setup
 ```
 
-Run the database migrations and seed the database with a default user and team:
-
+Run database migrations and seed:
 ```bash
 pnpm db:migrate
 pnpm db:seed
 ```
 
-This will create the following user and team:
-
-- User: `test@test.com`
-- Password: `admin123`
-
-You can also create new users through the `/sign-up` route.
-
-Finally, run the Next.js development server:
-
+Start development server:
 ```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can listen for Stripe webhooks locally through their CLI to handle subscription change events:
+Test credentials:
+- Email: `test@test.com`
+- Password: `admin123`
 
-```bash
-stripe listen --forward-to localhost:3000/api/stripe/webhook
-```
+## Features
 
-## Testing Payments
+- Marketing landing page with product showcase
+- Pricing page with Stripe Checkout integration
+- Dashboard with user/team management
+- Role-based access control (Owner/Member)
+- Subscription management via Stripe Customer Portal
+- Email/password authentication with JWT cookies
+- Activity logging for all user events
+- AI-powered features with Gemini integration
 
-To test Stripe payments, use the following test card details:
+## Deploy to Vercel
 
-- Card Number: `4242 4242 4242 4242`
-- Expiration: Any future date
-- CVC: Any 3-digit number
+1. Push code to GitHub
+2. Connect repository to [Vercel](https://vercel.com/)
+3. Add environment variables:
+   - `POSTGRES_URL`
+   - `STRIPE_SECRET_KEY`
+   - `STRIPE_WEBHOOK_SECRET`
+   - `BASE_URL`
+   - `AUTH_SECRET`
+   - `GEMINI_API_KEY` (for AI features)
 
-## Going to Production
+## License
 
-When you're ready to deploy your SaaS application to production, follow these steps:
-
-### Set up a production Stripe webhook
-
-1. Go to the Stripe Dashboard and create a new webhook for your production environment.
-2. Set the endpoint URL to your production API route (e.g., `https://yourdomain.com/api/stripe/webhook`).
-3. Select the events you want to listen for (e.g., `checkout.session.completed`, `customer.subscription.updated`).
-
-### Deploy to Vercel
-
-1. Push your code to a GitHub repository.
-2. Connect your repository to [Vercel](https://vercel.com/) and deploy it.
-3. Follow the Vercel deployment process, which will guide you through setting up your project.
-
-### Add environment variables
-
-In your Vercel project settings (or during deployment), add all the necessary environment variables. Make sure to update the values for the production environment, including:
-
-1. `BASE_URL`: Set this to your production domain.
-2. `STRIPE_SECRET_KEY`: Use your Stripe secret key for the production environment.
-3. `STRIPE_WEBHOOK_SECRET`: Use the webhook secret from the production webhook you created in step 1.
-4. `POSTGRES_URL`: Set this to your production database URL.
-5. `AUTH_SECRET`: Set this to a random string. `openssl rand -base64 32` will generate one.
-
-## Other Templates
-
-While this template is intentionally minimal and to be used as a learning resource, there are other paid versions in the community which are more full-featured:
-
-- https://achromatic.dev
-- https://shipfa.st
-- https://makerkit.dev
-- https://zerotoshipped.com
-- https://turbostarter.dev
+MIT License
