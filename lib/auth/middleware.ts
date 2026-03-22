@@ -35,7 +35,7 @@ type ValidatedActionWithUserFunction<S extends z.ZodType<any, any>, T> = (
 
 export function validatedActionWithUser<S extends z.ZodType<any, any>, T>(
   schema: S,
-  action: ValidatedActionWithUserFunction<S, T>
+  _action: ValidatedActionWithUserFunction<S, T>
 ) {
   return async (prevState: ActionState, formData: FormData) => {
     return {
@@ -44,13 +44,8 @@ export function validatedActionWithUser<S extends z.ZodType<any, any>, T>(
   };
 }
 
-type ActionWithTeamFunction<T> = (
-  formData: FormData,
-  team: any
-) => Promise<T>;
-
-export function withTeam<T>(action: ActionWithTeamFunction<T>) {
-  return async (formData: FormData): Promise<{ error: string }> => {
+export function withTeam(action: (formData: FormData, team: any) => Promise<any>) {
+  return async (formData: FormData) => {
     return {
       error: 'Database not configured. Please contact support.'
     };
