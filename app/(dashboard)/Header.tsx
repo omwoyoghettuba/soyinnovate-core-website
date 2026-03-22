@@ -30,16 +30,7 @@ function UserMenu() {
   }
 
   if (!user) {
-    return (
-      <>
-        <Link
-          href="/pricing"
-          className="text-sm font-medium text-foreground hover:text-primary"
-        >
-          Pricing
-        </Link>
-      </>
-    );
+    return null;
   }
 
   return (
