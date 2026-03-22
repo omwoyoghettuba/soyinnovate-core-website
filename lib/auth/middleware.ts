@@ -50,7 +50,7 @@ type ActionWithTeamFunction<T> = (
 ) => Promise<T>;
 
 export function withTeam<T>(action: ActionWithTeamFunction<T>) {
-  return async (formData: FormData): Promise<T> => {
+  return async (formData: FormData): Promise<{ error: string }> => {
     return {
       error: 'Database not configured. Please contact support.'
     };

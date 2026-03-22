@@ -40,6 +40,11 @@ async function createStripeProducts() {
 }
 
 async function seed() {
+  if (!db) {
+    console.log('Database not configured. Skipping seed.');
+    return;
+  }
+  
   const email = 'test@test.com';
   const password = 'admin123';
   const passwordHash = await hashPassword(password);
