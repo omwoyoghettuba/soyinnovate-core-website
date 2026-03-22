@@ -1,23 +1,13 @@
 import Link from 'next/link';
-import { checkoutAction } from '@/lib/payments/actions';
-import { Check, Milk, Users, Building2, Factory, ArrowLeft } from 'lucide-react';
-import { getStripePrices, getStripeProducts } from '@/lib/payments/stripe';
-import { SubmitButton } from './submit-button';
-
-export const revalidate = 3600;
+import { Check, Milk, Building2, Factory, ArrowLeft } from 'lucide-react';
 
 export default async function PricingPage() {
-  const [prices, products] = await Promise.all([
-    getStripePrices(),
-    getStripeProducts(),
-  ]);
-
   const plans = [
     {
       name: 'Starter',
       description: 'Perfect for small operations',
       icon: <Milk className="h-6 w-6" />,
-      price: prices.find((p) => p.productId === products.find((pr) => pr.name === 'Base')?.id),
+      price: null,
       basePrice: 4900,
       features: [
         'Dairy Management Platform OR Cooperative Platform',
@@ -31,7 +21,7 @@ export default async function PricingPage() {
       name: 'Business',
       description: 'For growing businesses',
       icon: <Building2 className="h-6 w-6" />,
-      price: prices.find((p) => p.productId === products.find((pr) => pr.name === 'Plus')?.id),
+      price: null,
       basePrice: 9900,
       features: [
         'All platforms included',
@@ -71,8 +61,7 @@ export default async function PricingPage() {
           Simple, Transparent Pricing
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Choose the plan that fits your business. All prices in USD per month, 
-          billed annually. Get started with a 14-day free trial.
+          Choose the plan that fits your business. Get started with a 14-day free trial.
         </p>
       </div>
       <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -119,10 +108,12 @@ function PricingCard({ plan }: { plan: any }) {
         ))}
       </ul>
       <div className="px-6 pb-6">
-        <form action={checkoutAction}>
-          <input type="hidden" name="priceId" value={plan.price?.id || ''} />
-          <SubmitButton />
-        </form>
+        <a
+          href="mailto:sales@soyinnosolutions.com"
+          className="block w-full py-2.5 px-4 rounded-lg bg-primary text-primary-foreground font-medium text-center hover:bg-primary/90 transition-colors"
+        >
+          Contact Sales
+        </a>
       </div>
     </div>
   );
